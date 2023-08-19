@@ -11,6 +11,9 @@ public record CartDto(
         List<OrderItemDto> orderItems
 ) {
     public CartDto(CartEntity cartEntity, List<OrderItemDto> orderItems) {
-        this(cartEntity.id(), cartEntity.totalPrice(), orderItems);
+        this(
+                cartEntity.id(),
+                cartEntity.totalPrice(),
+                orderItems);
     }
 }
