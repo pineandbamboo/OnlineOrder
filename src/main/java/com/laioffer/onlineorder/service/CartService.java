@@ -34,6 +34,28 @@ public class CartService {
 
     @CacheEvict(cacheNames = "cart", key = "#customerId")
     @Transactional // atomic
+    public void addMenuItemToCart(long customerId, long menuItemId, int quantity) {
+        CartEntity cart = cartRepository.getByCustomerId(customerId);
+        MenuItemEntity menuItem = menuItemRepository.findById(menuItemId).get();
+        OrderItemEntity orderItem = orderItemRepository.findByCartIdAndMenuItemId(cart.id(), menuItem.id());
+        Long orderItemId;
+
+        if (orderItem == null) {
+            orderItemId = null;
+        } else {
+            orderItemId = orderItem.id();
+            if (quantity == 0) {
+                orderItemRepository.deleteByMenuItemId(menuItemId);
+                cartRepository.updateTotalPrice(cart.id(), cart.totalPrice() - menuItem.price() * orderItem.quantity());
+                return;
+            }
+        }
+        OrderItemEntity newOrderItem = new OrderItemEntity(orderItemId, menuItemId, cart.id(), menuItem.price(), quantity);
+        orderItemRepository.save(newOrderItem);
+        cartRepository.updateTotalPrice(cart.id(), cart.totalPrice() + menuItem.price() * (quantity - (orderItem == null ? 0 : orderItem.quantity())));
+    }
+    @CacheEvict(cacheNames = "cart", key = "#customerId")
+    @Transactional // atomic
     public void addMenuItemToCart(long customerId, long menuItemId) {
         CartEntity cart = cartRepository.getByCustomerId(customerId);
         MenuItemEntity menuItem = menuItemRepository.findById(menuItemId).get();
