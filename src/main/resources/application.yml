@@ -19,3 +19,6 @@ logging:
   level:
     org.apache.coyote.http11.Http11InputBuffer: DEBUG # Incoming HTTP requests
     org.springframework.jdbc.core: DEBUG # SQL
+
+stripe:
+  secretKey=:sk_test_51MG8ddGAEiSOTIcIX6J07T6riIY0hKgUlobOHo4OFGNDNrwrpWLx1lAetpjdYPDaiTILqdY1wA0PVKBA3qf2a3Og00fcK1jGYL

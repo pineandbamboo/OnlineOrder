@@ -8,6 +8,8 @@ import org.springframework.data.repository.ListCrudRepository;
 import java.util.List;
 
 public interface OrderItemRepository extends ListCrudRepository<OrderItemEntity, Long> {
+//    @Modifying
+//    @Query("SELECT * FROM order_items WHERE cart_id = :cartId ORDER BY menu_item_id")
     List<OrderItemEntity> getAllByCartId(long cartId);
     OrderItemEntity findByCartIdAndMenuItemId(Long cartId, Long menuItemId);
 

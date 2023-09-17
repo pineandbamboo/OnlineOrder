@@ -43,6 +43,7 @@ public class CartController {
     @PostMapping("/cart/checkout")
     public void checkout(@AuthenticationPrincipal User user) {
         CustomerEntity customer = customerService.getCustomerByEmail(user.getUsername());
+
         cartService.clearCart(customer.id());
     }
 }

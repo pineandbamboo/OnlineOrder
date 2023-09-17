@@ -41,6 +41,9 @@ public class CartService {
         Long orderItemId;
 
         if (orderItem == null) {
+            if (quantity == 0) {
+                return;
+            }
             orderItemId = null;
         } else {
             orderItemId = orderItem.id();
